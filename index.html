@@ -1,530 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pedro Silveira — Som & Áudio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedro Silveira — Som & Áudio</title>
 
-  :root {
-    --bg:         #2C3828;   /* verde musgo escuro / atmosférico */
-    --bg-mid:     #344230;   /* verde ligeiramente mais claro p/ seções */
-    --terra:      #6B4035;   /* terracota rústico — separadores de seção */
-    --ember:      #C8622A;   /* laranja brasa — accent único */
-    --ink:        #E8E0CC;   /* bege neblina — texto principal */
-    --mid:        #9E9880;   /* bege escuro / cinza esverdeado — texto secundário */
-    --soft:       #5A6650;   /* verde médio suave — linhas e bordas */
-    --col:        640px;
-  }
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
 
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'PT Serif', serif;
-    font-size: 16px;
-    line-height: 1.75;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ── GRAIN ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 999;
-    opacity: .045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 160px 160px;
-  }
-
-  /* ── LAYOUT ── */
-  .wrap {
-    max-width: var(--col);
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-
-  section[id] { scroll-margin-top: 68px; }
-
-  /* ── NAV ── */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--bg);
-    padding: 28px 0 0;
-  }
-  .nav-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--soft);
-  }
-  .nav-name {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .nav-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
-  .nav-links a {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--mid);
-    text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--ember); }
-
-  /* ── HERO ── */
-  .hero {
-    padding: 88px 0 72px;
-    display: grid;
-    grid-template-columns: 1fr 156px;
-    gap: 0 48px;
-    align-items: start;
-  }
-  .hero-text { grid-column: 1; }
-  .hero-photo-wrap {
-    grid-column: 2;
-    grid-row: 1 / 6;
-    align-self: start;
-    margin-top: 6px;
-    opacity: 0;
-    animation: fadeUp .8s .5s forwards;
-  }
-  .hero-photo {
-    width: 156px;
-    height: 196px;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(20%) sepia(15%) brightness(.9);
-  }
-  .hero-photo-placeholder {
-    width: 156px;
-    height: 196px;
-    background: rgba(90,102,80,.18);
-    border: 1px dashed var(--soft);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-    position: relative;
-    transition: background .2s;
-  }
-  .hero-photo-placeholder:hover { background: rgba(90,102,80,.32); }
-  .hero-photo-placeholder input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-  .placeholder-icon { font-size: 22px; color: var(--soft); line-height: 1; }
-  .placeholder-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--soft);
-    text-align: center;
-    padding: 0 12px;
-    line-height: 1.6;
-  }
-
-  .hero-eyebrow {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: fadeUp .8s .1s forwards;
-  }
-  .hero-name {
-    font-family: 'PT Serif', serif;
-    font-size: clamp(46px, 9vw, 76px);
-    line-height: 1.0;
-    letter-spacing: -.01em;
-    color: var(--ink);
-    margin-bottom: 28px;
-    opacity: 0;
-    animation: fadeUp .8s .25s forwards;
-  }
-  .hero-name em {
-    font-style: italic;
-    color: var(--mid);
-  }
-  .hero-bio {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--ink);
-    opacity: .85;
-    max-width: 480px;
-    opacity: 0;
-    animation: fadeUp .8s .4s forwards;
-  }
-  .hero-contact {
-    margin-top: 36px;
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp .8s .55s forwards;
-  }
-  .hero-contact a {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: .07em;
-    color: var(--ember);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(200,98,42,.3);
-    padding-bottom: 1px;
-    transition: border-color .2s;
-  }
-  .hero-contact a:hover { border-color: var(--ember); }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── SECTIONS ── */
-  section { padding: 64px 0; }
-
-  .section-divider {
-    border: none;
-    height: 1px;
-    background: var(--terra);
-    margin-bottom: 44px;
-    opacity: .6;
-  }
-
-  .section-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 36px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--soft);
-    opacity: .35;
-  }
-
-  /* ── CREDITS ── */
-  .credit {
-    padding: 26px 0;
-    border-bottom: 1px solid rgba(90,102,80,.3);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 6px 20px;
-    align-items: start;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .5s, transform .5s;
-  }
-  .credit.visible { opacity: 1; transform: none; }
-  .credit:last-child { border-bottom: none; }
-
-  /* ── FILM CREDIT (com poster) ── */
-  .credit-film {
-    padding: 28px 0;
-    border-bottom: 1px solid rgba(90,102,80,.3);
-    display: grid;
-    grid-template-columns: 88px 1fr;
-    gap: 0 24px;
-    align-items: start;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .5s, transform .5s;
-  }
-  .credit-film.visible { opacity: 1; transform: none; }
-  .credit-film:last-child { border-bottom: none; }
-
-  /* poster */
-  .poster-wrap { position: relative; }
-  .poster-img {
-    width: 88px;
-    height: 124px;
-    object-fit: cover;
-    display: block;
-    filter: sepia(10%) brightness(.88) contrast(1.02);
-  }
-  .poster-placeholder {
-    width: 88px;
-    height: 124px;
-    background: rgba(90,102,80,.15);
-    border: 1px dashed var(--soft);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-    position: relative;
-    transition: background .2s;
-  }
-  .poster-placeholder:hover { background: rgba(90,102,80,.28); }
-  .poster-placeholder input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-  .poster-icon { font-size: 16px; color: var(--soft); line-height: 1; }
-  .poster-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 8px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--soft);
-    text-align: center;
-    padding: 0 6px;
-    line-height: 1.5;
-  }
-
-  /* text column dentro do film credit */
-  .credit-film-body { display: flex; flex-direction: column; gap: 0; }
-  .credit-film-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 12px;
-    margin-bottom: 4px;
-  }
-
-  .credit-title {
-    font-family: 'PT Serif', serif;
-    font-size: 19px;
-    line-height: 1.2;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-  .credit-dir {
-    font-size: 13px;
-    color: var(--mid);
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-  .credit-roles {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .08em;
-    color: var(--mid);
-    text-transform: uppercase;
-    line-height: 1.9;
-  }
-  .credit-festivals {
-    margin-top: 7px;
-    font-size: 12px;
-    color: var(--soft);
-    font-style: italic;
-  }
-  .credit-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
-  .credit-link {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ember);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(200,98,42,.25);
-    padding-bottom: 1px;
-    transition: border-color .2s;
-  }
-  .credit-link:hover { border-color: var(--ember); }
-  .credit-year {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    color: var(--soft);
-    white-space: nowrap;
-    margin-top: 4px;
-  }
-
-  /* ── SKILLS GRID ── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .skill-block {
-    padding: 22px 0;
-    border-bottom: 1px solid rgba(90,102,80,.25);
-  }
-  .skill-block:nth-child(odd)  { padding-right: 32px; border-right: 1px solid rgba(90,102,80,.25); }
-  .skill-block:nth-child(even) { padding-left: 32px; }
-  .skill-category {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--soft);
-    margin-bottom: 10px;
-  }
-  .skill-list {
-    font-size: 14px;
-    color: var(--ink);
-    opacity: .85;
-    line-height: 2;
-  }
-
-  /* ── EXPERIENCE ── */
-  .exp-item {
-    padding: 26px 0;
-    border-bottom: 1px solid rgba(90,102,80,.25);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity .5s, transform .5s;
-  }
-  .exp-item.visible { opacity: 1; transform: none; }
-  .exp-item:last-child { border-bottom: none; }
-  .exp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 4px;
-  }
-  .exp-role {
-    font-family: 'PT Serif', serif;
-    font-size: 18px;
-    color: var(--ink);
-  }
-  .exp-period {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    color: var(--soft);
-    letter-spacing: .06em;
-    white-space: nowrap;
-  }
-  .exp-company {
-    font-size: 13px;
-    color: var(--mid);
-    font-style: italic;
-    margin-bottom: 10px;
-  }
-  .exp-desc {
-    font-size: 14px;
-    color: var(--ink);
-    opacity: .8;
-    line-height: 1.8;
-  }
-
-  /* ── EDUCATION ── */
-  .edu-list { list-style: none; }
-  .edu-item {
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(90,102,80,.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .edu-item:last-child { border-bottom: none; }
-  .edu-name { font-size: 14px; color: var(--ink); opacity: .85; }
-  .edu-meta {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    color: var(--soft);
-    flex-shrink: 0;
-  }
-
-  /* ── LANGUAGES ── */
-  .lang-row { display: flex; gap: 36px; flex-wrap: wrap; }
-  .lang-item { display: flex; flex-direction: column; gap: 4px; }
-  .lang-name {
-    font-family: 'PT Serif', serif;
-    font-size: 18px;
-    color: var(--ink);
-  }
-  .lang-level {
-    font-family: 'Courier Prime', monospace;
-    font-size: 9px;
-    letter-spacing: .12em;
-    color: var(--soft);
-    text-transform: uppercase;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 44px 0 60px;
-    border-top: 1px solid var(--terra);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    opacity: .7;
-  }
-  .footer-sig {
-    font-family: 'PT Serif', serif;
-    font-style: italic;
-    font-size: 20px;
-    color: var(--ink);
-  }
-  .footer-copy {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    color: var(--mid);
-    letter-spacing: .08em;
-  }
-
-  /* ── MOBILE ── */
-  @media (max-width: 600px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-photo-wrap { grid-column: 1; grid-row: auto; margin-bottom: 32px; order: -1; }
-    .hero-photo, .hero-photo-placeholder { width: 110px; height: 138px; }
-    .skills-grid { grid-template-columns: 1fr; }
-    .skill-block:nth-child(odd) { padding-right: 0; border-right: none; }
-    .skill-block:nth-child(even) { padding-left: 0; }
-    .credit { grid-template-columns: 1fr; }
-    .credit-film { grid-template-columns: 72px 1fr; gap: 0 16px; }
-    .poster-placeholder, .poster-img { width: 72px; height: 100px; }
-    .nav-links { display: none; }
-    footer { flex-direction: column; align-items: flex-start; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .credit, .exp-item { opacity: 1; transform: none; }
-    .hero-eyebrow, .hero-name, .hero-bio, .hero-contact, .hero-photo-wrap { opacity: 1; animation: none; }
-  }
-</style>
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="wrap">
 
-  <!-- NAV -->
+  <!-- ======================= NAVEGAÇÃO ======================= -->
   <nav>
     <div class="nav-inner">
       <span class="nav-name">Pedro Silveira</span>
@@ -537,246 +31,230 @@
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ======================= HERO ======================= -->
   <header class="hero">
     <div class="hero-text">
       <p class="hero-eyebrow">Técnico de Som · Artista Sonoro · São Paulo, BR</p>
       <h1 class="hero-name">Pedro<br><em>Silveira</em></h1>
       <p class="hero-bio">
-        Trabalho no encontro entre técnica e poética — gravação, mixagem, desenho de som e trilha para cinema independente e produção musical. Formado em ciência e tecnologia, com trajetória musical desde a infância.
+        Trabalho no encontro entre técnica e poética — gravação, mixagem, desenho de som e
+        trilha para cinema independente e produção musical. Formado em ciência e tecnologia,
+        com trajetória musical desde a infância.
       </p>
       <div class="hero-contact">
         <a href="mailto:plmendess98@gmail.com">plmendess98@gmail.com</a>
         <a href="tel:+5511973407118">(11) 97340-7118</a>
       </div>
     </div>
+
     <div class="hero-photo-wrap">
-      <div class="hero-photo-placeholder" id="photoPlaceholder">
-        <input type="file" accept="image/*" id="photoInput">
-        <span class="placeholder-icon">▭</span>
-        <span class="placeholder-label">Adicionar<br>foto</span>
-      </div>
+      <!-- FOTO DE PERFIL: troque o src pela URL da sua foto -->
+      <img class="hero-photo" src="COLOQUE_AQUI_URL_DA_SUA_FOTO.jpg" alt="Pedro Silveira">
     </div>
   </header>
 
-  <!-- FILMOGRAFIA -->
+  <!-- ======================= FILMOGRAFIA ======================= -->
   <section id="filmografia">
     <hr class="section-divider">
     <p class="section-label">Filmografia selecionada</p>
 
-    <div class="credit-film">
+    <article class="credit-film">
       <div class="poster-wrap">
-        <div class="poster-placeholder">
-          <input type="file" accept="image/*" class="poster-input">
-          <span class="poster-icon">▭</span>
-          <span class="poster-label">Poster</span>
-        </div>
+        <!-- POSTER: troque o src pela URL do poster do filme -->
+        <img class="poster-img" src="COLOQUE_AQUI_URL_DO_POSTER_1.jpg" alt="Poster — Batata Frita na Chuva">
       </div>
       <div class="credit-film-body">
         <div class="credit-film-header">
-          <div class="credit-title">Batata Frita na Chuva</div>
-          <div class="credit-year">2025</div>
+          <h3 class="credit-title">Batata Frita na Chuva</h3>
+          <span class="credit-year">2025</span>
         </div>
-        <div class="credit-dir">Dir. Ninah Nogino</div>
-        <div class="credit-roles">Som direto · Desenho de som · Trilha sonora · Mixagem</div>
-        <div class="credit-festivals">Curta Cinema (BR) · Kurzfilmtage Oberhausen (DE)</div>
+        <p class="credit-dir">Dir. Ninah Nogino</p>
+        <p class="credit-roles">Som direto · Desenho de som · Trilha sonora · Mixagem</p>
+        <p class="credit-festivals">Curta Cinema (BR) · Kurzfilmtage Oberhausen (DE)</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ver filme</a></div>
       </div>
-    </div>
+    </article>
 
-    <div class="credit-film">
+    <article class="credit-film">
       <div class="poster-wrap">
-        <div class="poster-placeholder">
-          <input type="file" accept="image/*" class="poster-input">
-          <span class="poster-icon">▭</span>
-          <span class="poster-label">Poster</span>
-        </div>
+        <img class="poster-img" src="COLOQUE_AQUI_URL_DO_POSTER_2.jpg" alt="Poster — Varzeanas: Guardiãs de Territórios em Disputa">
       </div>
       <div class="credit-film-body">
         <div class="credit-film-header">
-          <div class="credit-title">Varzeanas: Guardiãs de Territórios em Disputa</div>
-          <div class="credit-year">2025</div>
+          <h3 class="credit-title">Varzeanas: Guardiãs de Territórios em Disputa</h3>
+          <span class="credit-year">2025</span>
         </div>
-        <div class="credit-dir">Dir. Beatriz Fontes</div>
-        <div class="credit-roles">Desenho de som · Trilha sonora · Mixagem</div>
-        <div class="credit-festivals">Museu do Futebol — SP</div>
+        <p class="credit-dir">Dir. Beatriz Fontes</p>
+        <p class="credit-roles">Desenho de som · Trilha sonora · Mixagem</p>
+        <p class="credit-festivals">Museu do Futebol — SP</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ver filme</a></div>
       </div>
-    </div>
+    </article>
 
-    <div class="credit-film">
+    <article class="credit-film">
       <div class="poster-wrap">
-        <div class="poster-placeholder">
-          <input type="file" accept="image/*" class="poster-input">
-          <span class="poster-icon">▭</span>
-          <span class="poster-label">Poster</span>
-        </div>
+        <img class="poster-img" src="COLOQUE_AQUI_URL_DO_POSTER_3.jpg" alt="Poster — Relatos de Xerém">
       </div>
       <div class="credit-film-body">
         <div class="credit-film-header">
-          <div class="credit-title">Relatos de Xerém</div>
-          <div class="credit-year">2024</div>
+          <h3 class="credit-title">Relatos de Xerém</h3>
+          <span class="credit-year">2024</span>
         </div>
-        <div class="credit-dir">Dir. Ninah Nogino</div>
-        <div class="credit-roles">Desenho de som · Mixagem</div>
-        <div class="credit-festivals">Mostra Quem Quer Queer (BR) · Curt'Arruda (PT) · Ruídos Queer+ (BR)</div>
+        <p class="credit-dir">Dir. Ninah Nogino</p>
+        <p class="credit-roles">Desenho de som · Mixagem</p>
+        <p class="credit-festivals">Mostra Quem Quer Queer (BR) · Curt'Arruda (PT) · Ruídos Queer+ (BR)</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ver filme</a></div>
       </div>
-    </div>
+    </article>
 
-    <div class="credit-film">
+    <article class="credit-film">
       <div class="poster-wrap">
-        <div class="poster-placeholder">
-          <input type="file" accept="image/*" class="poster-input">
-          <span class="poster-icon">▭</span>
-          <span class="poster-label">Poster</span>
-        </div>
+        <img class="poster-img" src="COLOQUE_AQUI_URL_DO_POSTER_4.jpg" alt="Poster — Noite de Jogos">
       </div>
       <div class="credit-film-body">
         <div class="credit-film-header">
-          <div class="credit-title">Noite de Jogos</div>
-          <div class="credit-year">2024</div>
+          <h3 class="credit-title">Noite de Jogos</h3>
+          <span class="credit-year">2024</span>
         </div>
-        <div class="credit-dir">Dir. Stefany Taglialatella</div>
-        <div class="credit-roles">Trilha sonora original</div>
-        <div class="credit-festivals">Caruaru (BR) · Montevideo Fantastico (UY) · Valparaíso (CL) · Island of Horror (EUA)</div>
+        <p class="credit-dir">Dir. Stefany Taglialatella</p>
+        <p class="credit-roles">Trilha sonora original</p>
+        <p class="credit-festivals">Caruaru (BR) · Montevideo Fantastico (UY) · Valparaíso (CL) · Island of Horror (EUA)</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ver filme</a></div>
       </div>
-    </div>
+    </article>
 
-    <div class="credit-film">
+    <article class="credit-film">
       <div class="poster-wrap">
-        <div class="poster-placeholder">
-          <input type="file" accept="image/*" class="poster-input">
-          <span class="poster-icon">▭</span>
-          <span class="poster-label">Poster</span>
-        </div>
+        <img class="poster-img" src="COLOQUE_AQUI_URL_DO_POSTER_5.jpg" alt="Poster — Sessões em Parafuso">
       </div>
       <div class="credit-film-body">
         <div class="credit-film-header">
-          <div class="credit-title">Sessões em Parafuso</div>
-          <div class="credit-year">2023</div>
+          <h3 class="credit-title">Sessões em Parafuso</h3>
+          <span class="credit-year">2023</span>
         </div>
-        <div class="credit-dir">Parafuso</div>
-        <div class="credit-roles">Produção · Direção · Gravação · Mixagem</div>
+        <p class="credit-dir">Parafuso</p>
+        <p class="credit-roles">Produção · Direção · Gravação · Mixagem</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ver filme</a></div>
       </div>
-    </div>
+    </article>
   </section>
 
-  <!-- MÚSICA -->
+  <!-- ======================= MÚSICA ======================= -->
   <section id="musica">
     <hr class="section-divider">
     <p class="section-label">Produção musical selecionada</p>
 
-    <div class="credit">
+    <article class="credit">
       <div>
-        <div class="credit-title">Mais do que um Simples Medo</div>
-        <div class="credit-dir">Nozes — Álbum</div>
-        <div class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</div>
+        <h3 class="credit-title">Mais do que um Simples Medo</h3>
+        <p class="credit-dir">Nozes — Álbum</p>
+        <p class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ouvir</a></div>
       </div>
-      <div class="credit-year">2024</div>
-    </div>
+      <span class="credit-year">2024</span>
+    </article>
 
-    <div class="credit">
+    <article class="credit">
       <div>
-        <div class="credit-title">Icosaedro</div>
-        <div class="credit-dir">Pedro Silveira & Roberto Betini — Single</div>
-        <div class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</div>
+        <h3 class="credit-title">Icosaedro</h3>
+        <p class="credit-dir">Pedro Silveira & Roberto Betini — Single</p>
+        <p class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ouvir</a></div>
       </div>
-      <div class="credit-year">2024</div>
-    </div>
+      <span class="credit-year">2024</span>
+    </article>
 
-    <div class="credit">
+    <article class="credit">
       <div>
-        <div class="credit-title">Tente</div>
-        <div class="credit-dir">Massoco — Single</div>
-        <div class="credit-roles">Arranjos · Gravação</div>
+        <h3 class="credit-title">Tente</h3>
+        <p class="credit-dir">Massoco — Single</p>
+        <p class="credit-roles">Arranjos · Gravação</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ouvir</a></div>
       </div>
-      <div class="credit-year">2023</div>
-    </div>
+      <span class="credit-year">2023</span>
+    </article>
 
-    <div class="credit">
+    <article class="credit">
       <div>
-        <div class="credit-title">Circulares</div>
-        <div class="credit-dir">Roberto Betini — EP</div>
-        <div class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</div>
+        <h3 class="credit-title">Circulares</h3>
+        <p class="credit-dir">Roberto Betini — EP</p>
+        <p class="credit-roles">Composição · Arranjos · Gravação · Mixagem · Masterização</p>
         <div class="credit-links"><a href="#" class="credit-link">↗ Ouvir</a></div>
       </div>
-      <div class="credit-year">2022</div>
-    </div>
+      <span class="credit-year">2022</span>
+    </article>
   </section>
 
-  <!-- COMPETÊNCIAS -->
+  <!-- ======================= COMPETÊNCIAS ======================= -->
   <section id="competencias">
     <hr class="section-divider">
     <p class="section-label">Competências técnicas</p>
 
     <div class="skills-grid">
       <div class="skill-block">
-        <div class="skill-category">DAWs</div>
-        <div class="skill-list">Reaper · Logic Pro<br>Pro Tools · Audacity</div>
+        <h4 class="skill-category">DAWs</h4>
+        <p class="skill-list">Reaper · Logic Pro<br>Pro Tools · Audacity</p>
       </div>
       <div class="skill-block">
-        <div class="skill-category">Vídeo</div>
-        <div class="skill-list">Premiere Pro<br>DaVinci Resolve</div>
+        <h4 class="skill-category">Vídeo</h4>
+        <p class="skill-list">Premiere Pro<br>DaVinci Resolve</p>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIÊNCIA -->
+  <!-- ======================= EXPERIÊNCIA (SOM) ======================= -->
   <section id="experiencia">
     <hr class="section-divider">
     <p class="section-label">Experiência profissional</p>
 
-    <div class="exp-item">
+    <article class="exp-item">
       <div class="exp-header">
-        <div class="exp-role">Técnico de Som</div>
-        <div class="exp-period">2025 — atual</div>
+        <h3 class="exp-role">Técnico de Som</h3>
+        <span class="exp-period">2025 — atual</span>
       </div>
-      <div class="exp-company">Acústica Studios · São Caetano do Sul, SP</div>
-      <div class="exp-desc">Assistente de gravações e ensaios em sessões com bandas de pequeno a grande porte: microfonação, montagem e suporte ao produtor residente. Operação de som, monitoramento.</div>
-    </div>
+      <p class="exp-company">Acústica Studios · São Caetano do Sul, SP</p>
+      <p class="exp-desc">
+        Assistente de gravações e ensaios em sessões com bandas de pequeno a grande porte:
+        microfonação, montagem e suporte ao produtor residente. Operação de som, monitoramento.
+      </p>
+    </article>
 
-    <div class="exp-item">
+    <article class="exp-item">
       <div class="exp-header">
-        <div class="exp-role">Roadie</div>
-        <div class="exp-period">2025</div>
+        <h3 class="exp-role">Roadie</h3>
+        <span class="exp-period">2025</span>
       </div>
-      <div class="exp-company">Festival Rock The Mountain · Petrópolis, RJ</div>
-      <div class="exp-desc">Suporte técnico em festival de grande porte: montagem, operação e desmontagem de equipamentos de palco.</div>
-    </div>
-
+      <p class="exp-company">Festival Rock The Mountain · Petrópolis, RJ</p>
+      <p class="exp-desc">
+        Suporte técnico em festival de grande porte: montagem, operação e desmontagem de
+        equipamentos de palco.
+      </p>
+    </article>
   </section>
 
- <section id="experiencia">
-  <hr class="section-divider">
-    <p class="section-label">Experiência Administrativa</p>
-  
-  <div class="exp-item">
+  <!-- ======================= EXPERIÊNCIA (ADMINISTRATIVA) ======================= -->
+  <section id="experiencia-admin">
+    <hr class="section-divider">
+    <p class="section-label">Experiência administrativa</p>
+
+    <article class="exp-item">
       <div class="exp-header">
-        <div class="exp-role">Tech Product Manager</div>
-        <div class="exp-period">2026 — atual</div>
+        <h3 class="exp-role">Tech Product Manager</h3>
+        <span class="exp-period">2026 — atual</span>
       </div>
-      <div class="exp-company">XP Educação</div>
-    </div>
+      <p class="exp-company">XP Educação</p>
+    </article>
 
-    <div class="exp-item">
+    <article class="exp-item">
       <div class="exp-header">
-        <div class="exp-role">Analista de Negócios</div>
-        <div class="exp-period">2021 — 2025</div>
+        <h3 class="exp-role">Analista de Negócios</h3>
+        <span class="exp-period">2021 — 2025</span>
       </div>
-      <div class="exp-company">Pearson Education</div>
-    </div>
- </section>
+      <p class="exp-company">Pearson Education</p>
+    </article>
+  </section>
 
-
-
- 
-  <!-- FORMAÇÃO -->
+  <!-- ======================= FORMAÇÃO ======================= -->
   <section id="formacao">
     <hr class="section-divider">
     <p class="section-label">Formação</p>
@@ -809,10 +287,11 @@
     </ul>
   </section>
 
-  <!-- IDIOMAS -->
-  <section>
+  <!-- ======================= IDIOMAS ======================= -->
+  <section id="idiomas">
     <hr class="section-divider">
     <p class="section-label">Idiomas</p>
+
     <div class="lang-row">
       <div class="lang-item">
         <span class="lang-name">Português</span>
@@ -833,7 +312,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ======================= RODAPÉ ======================= -->
   <footer>
     <div class="footer-sig">Pedro Silveira</div>
     <div class="footer-copy">plmendess98@gmail.com · (11) 97340-7118</div>
@@ -841,60 +320,7 @@
 
 </div>
 
-<script>
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.credit, .credit-film, .exp-item');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  revealEls.forEach(el => obs.observe(el));
-
-  // Poster upload — cada placeholder independente
-  document.querySelectorAll('.poster-input').forEach(input => {
-    input.addEventListener('change', () => {
-      const file = input.files[0];
-      if (!file) return;
-      const url = URL.createObjectURL(file);
-      const img = document.createElement('img');
-      img.src = url;
-      img.className = 'poster-img';
-      img.alt = 'Poster';
-      input.closest('.poster-placeholder').replaceWith(img);
-    });
-  });
-
-  // Nav smooth scroll with sticky offset
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
-      e.preventDefault();
-      const navH = document.querySelector('nav').offsetHeight;
-      const top = target.getBoundingClientRect().top + window.scrollY - navH - 12;
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
-  });
-
-  // Photo upload
-  const photoInput = document.getElementById('photoInput');
-  const photoPlaceholder = document.getElementById('photoPlaceholder');
-  photoInput.addEventListener('change', () => {
-    const file = photoInput.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    const img = document.createElement('img');
-    img.src = url;
-    img.className = 'hero-photo';
-    img.alt = 'Pedro Silveira';
-    photoPlaceholder.replaceWith(img);
-  });
-</script>
-
+<!-- Scripts -->
+<script src="script.js"></script>
 </body>
 </html>
