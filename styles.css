@@ -1,0 +1,661 @@
+/* ==========================================================================
+   PEDRO SILVEIRA — PORTFÓLIO
+   Folha de estilos
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. RESET
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. VARIÁVEIS (design tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Cores */
+  --bg:      #2C3828; /* verde musgo escuro / atmosférico */
+  --bg-mid:  #344230; /* verde ligeiramente mais claro p/ seções */
+  --terra:   #6B4035; /* terracota rústico — separadores de seção */
+  --ember:   #C8622A; /* laranja brasa — accent único */
+  --ink:     #E8E0CC; /* bege neblina — texto principal */
+  --mid:     #9E9880; /* bege escuro / cinza esverdeado — texto secundário */
+  --soft:    #5A6650; /* verde médio suave — linhas e bordas */
+
+  /* Layout */
+  --col: 640px; /* largura máxima do conteúdo */
+
+  /* Tipografia */
+  --font-serif: 'PT Serif', serif;
+  --font-mono:  'Courier Prime', monospace;
+
+  /* Espaçamento entre seções */
+  --section-padding: 28px;
+  --divider-gap: 28px;
+}
+
+/* --------------------------------------------------------------------------
+   3. BASE
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Textura de grão sobre toda a página */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+}
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT / CONTAINER
+   -------------------------------------------------------------------------- */
+.wrap {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+section[id] {
+  scroll-margin-top: 68px; /* compensa a nav fixa ao usar âncoras */
+}
+
+/* --------------------------------------------------------------------------
+   5. NAVEGAÇÃO
+   -------------------------------------------------------------------------- */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  padding: 28px 0 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--soft);
+}
+
+.nav-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.nav-links a:hover {
+  color: var(--ember);
+}
+
+/* --------------------------------------------------------------------------
+   6. HERO (topo com nome, bio e foto)
+   -------------------------------------------------------------------------- */
+.hero {
+  padding: 88px 0 72px;
+  display: grid;
+  grid-template-columns: 1fr 156px;
+  gap: 0 48px;
+  align-items: start;
+}
+
+.hero-text {
+  grid-column: 1;
+}
+
+.hero-photo-wrap {
+  grid-column: 2;
+  grid-row: 1 / 6;
+  align-self: start;
+  margin-top: 6px;
+  opacity: 0;
+  animation: fadeUp .8s .5s forwards;
+}
+
+.hero-photo {
+  width: 156px;
+  height: 196px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%) sepia(15%) brightness(.9);
+  background: rgba(90, 102, 80, .18); /* aparece enquanto a imagem carrega */
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .8s .1s forwards;
+}
+
+.hero-name {
+  font-family: var(--font-serif);
+  font-size: clamp(46px, 9vw, 76px);
+  line-height: 1.0;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp .8s .25s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--mid);
+}
+
+.hero-bio {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+  max-width: 480px;
+  opacity: 0;
+  animation: fadeUp .8s .4s forwards;
+}
+
+.hero-contact {
+  margin-top: 36px;
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp .8s .55s forwards;
+}
+
+.hero-contact a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .07em;
+  color: var(--ember);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200, 98, 42, .3);
+  padding-bottom: 1px;
+  transition: border-color .2s;
+}
+
+.hero-contact a:hover {
+  border-color: var(--ember);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------------------------
+   7. SEÇÕES (estrutura genérica reutilizada em todo o site)
+   -------------------------------------------------------------------------- */
+section {
+  padding: var(--section-padding) 0;
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  background: var(--terra);
+  margin-bottom: var(--divider-gap);
+  opacity: .6;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--soft);
+  opacity: .35;
+}
+
+/* --------------------------------------------------------------------------
+   8. CRÉDITOS — MÚSICA (linha simples: título + ano)
+   -------------------------------------------------------------------------- */
+.credit {
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(90, 102, 80, .3);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 20px;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s, transform .5s;
+}
+
+.credit.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.credit:last-child {
+  border-bottom: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. CRÉDITOS — FILMOGRAFIA (com poster)
+   -------------------------------------------------------------------------- */
+.credit-film {
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(90, 102, 80, .3);
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 0 24px;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s, transform .5s;
+}
+
+.credit-film.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.credit-film:last-child {
+  border-bottom: none;
+}
+
+.poster-wrap {
+  position: relative;
+}
+
+.poster-img {
+  width: 88px;
+  height: 124px;
+  object-fit: cover;
+  display: block;
+  filter: sepia(10%) brightness(.88) contrast(1.02);
+  background: rgba(90, 102, 80, .15); /* aparece enquanto a imagem carrega */
+}
+
+.credit-film-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.credit-film-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.credit-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.credit-dir {
+  font-size: 13px;
+  color: var(--mid);
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.credit-roles {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: var(--mid);
+  text-transform: uppercase;
+  line-height: 1.9;
+}
+
+.credit-festivals {
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--soft);
+  font-style: italic;
+}
+
+.credit-links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.credit-link {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ember);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200, 98, 42, .25);
+  padding-bottom: 1px;
+  transition: border-color .2s;
+}
+
+.credit-link:hover {
+  border-color: var(--ember);
+}
+
+.credit-year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soft);
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   10. COMPETÊNCIAS (grid de 2 colunas)
+   -------------------------------------------------------------------------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.skill-block {
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(90, 102, 80, .25);
+}
+
+.skill-block:nth-child(odd) {
+  padding-right: 32px;
+  border-right: 1px solid rgba(90, 102, 80, .25);
+}
+
+.skill-block:nth-child(even) {
+  padding-left: 32px;
+}
+
+.skill-category {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 10px;
+}
+
+.skill-list {
+  font-size: 14px;
+  color: var(--ink);
+  opacity: .85;
+  line-height: 2;
+}
+
+/* --------------------------------------------------------------------------
+   11. EXPERIÊNCIA PROFISSIONAL
+   -------------------------------------------------------------------------- */
+.exp-item {
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(90, 102, 80, .25);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s, transform .5s;
+}
+
+.exp-item.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.exp-item:last-child {
+  border-bottom: none;
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.exp-role {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.exp-company {
+  font-size: 13px;
+  color: var(--mid);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.exp-desc {
+  font-size: 14px;
+  color: var(--ink);
+  opacity: .8;
+  line-height: 1.8;
+}
+
+/* --------------------------------------------------------------------------
+   12. FORMAÇÃO
+   -------------------------------------------------------------------------- */
+.edu-list {
+  list-style: none;
+}
+
+.edu-item {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(90, 102, 80, .2);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.edu-item:last-child {
+  border-bottom: none;
+}
+
+.edu-name {
+  font-size: 14px;
+  color: var(--ink);
+  opacity: .85;
+}
+
+.edu-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   13. IDIOMAS
+   -------------------------------------------------------------------------- */
+.lang-row {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.lang-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lang-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.lang-level {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--soft);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   14. RODAPÉ
+   -------------------------------------------------------------------------- */
+footer {
+  padding: 44px 0 60px;
+  border-top: 1px solid var(--terra);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  opacity: .7;
+}
+
+.footer-sig {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--mid);
+  letter-spacing: .08em;
+}
+
+/* --------------------------------------------------------------------------
+   15. RESPONSIVO
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-photo-wrap {
+    grid-column: 1;
+    grid-row: auto;
+    margin-bottom: 32px;
+    order: -1;
+  }
+
+  .hero-photo {
+    width: 110px;
+    height: 138px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-block:nth-child(odd) {
+    padding-right: 0;
+    border-right: none;
+  }
+
+  .skill-block:nth-child(even) {
+    padding-left: 0;
+  }
+
+  .credit {
+    grid-template-columns: 1fr;
+  }
+
+  .credit-film {
+    grid-template-columns: 72px 1fr;
+    gap: 0 16px;
+  }
+
+  .poster-img {
+    width: 72px;
+    height: 100px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. ACESSIBILIDADE
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .credit,
+  .exp-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-eyebrow,
+  .hero-name,
+  .hero-bio,
+  .hero-contact,
+  .hero-photo-wrap {
+    opacity: 1;
+    animation: none;
+  }
+}
