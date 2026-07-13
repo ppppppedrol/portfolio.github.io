@@ -262,14 +262,14 @@ section {
 }
 
 /* --------------------------------------------------------------------------
-   8. CRÉDITOS — MÚSICA (linha simples: título + ano)
+   8. CRÉDITOS — MÚSICA (com capa quadrada)
    -------------------------------------------------------------------------- */
 .credit {
   padding: 26px 0;
   border-bottom: 1px solid rgba(90, 102, 80, .3);
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 6px 20px;
+  grid-template-columns: 88px 1fr;
+  gap: 0 24px;
   align-items: start;
   opacity: 0;
   transform: translateY(8px);
@@ -283,6 +283,32 @@ section {
 
 .credit:last-child {
   border-bottom: none;
+}
+
+.cover-wrap {
+  position: relative;
+}
+
+.cover-img {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  display: block;
+  filter: sepia(10%) brightness(.88) contrast(1.02);
+  background: rgba(90, 102, 80, .15); /* aparece enquanto a imagem carrega */
+}
+
+.credit-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.credit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 4px;
 }
 
 /* --------------------------------------------------------------------------
@@ -617,7 +643,13 @@ footer {
   }
 
   .credit {
-    grid-template-columns: 1fr;
+    grid-template-columns: 72px 1fr;
+    gap: 0 16px;
+  }
+
+  .cover-img {
+    width: 72px;
+    height: 72px;
   }
 
   .credit-film {
