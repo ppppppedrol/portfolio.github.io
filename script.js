@@ -2,15 +2,41 @@
  * PEDRO SILVEIRA — PORTFÓLIO
  * Scripts da página
  *
- * 1. revealOnScroll  — anima créditos e experiências ao entrarem na tela
- * 2. enableSmoothNav — scroll suave nos links da navegação, respeitando
- *                      a altura da nav fixa no topo
+ * 1. revealOnScroll        — anima créditos e experiências ao entrarem na tela
+ * 2. enableSmoothNav       — scroll suave nos links da navegação, respeitando
+ *                            a altura da nav fixa no topo
+ * 3. enableMobileNavToggle — abre/fecha o menu hambúrguer em tela cheia (mobile)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   revealOnScroll();
   enableSmoothNav();
+  enableMobileNavToggle();
 });
+
+/**
+ * Controla o botão hambúrguer e o overlay de menu em tela cheia no mobile:
+ * abre/fecha ao clicar no botão, e fecha ao clicar em qualquer link do menu.
+ */
+function enableMobileNavToggle() {
+  const toggle = document.getElementById('nav-toggle');
+  const overlay = document.getElementById('nav-overlay');
+  if (!toggle || !overlay) return;
+
+  const setOpen = (open) => {
+    document.body.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  };
+
+  toggle.addEventListener('click', () => {
+    setOpen(!document.body.classList.contains('nav-open'));
+  });
+
+  overlay.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+}
 
 /**
  * Observa os blocos de crédito e experiência e adiciona a classe
