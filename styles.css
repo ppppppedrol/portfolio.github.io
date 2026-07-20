@@ -37,6 +37,12 @@
   /* Espaçamento entre seções */
   --section-padding: 28px;
   --divider-gap: 28px;
+
+  /* Enquadramento da foto do hero (ajuste aqui, sem precisar mexer no resto do CSS)
+     Formato: "X% Y%" — X = horizontal (0% esquerda, 100% direita)
+                        Y = vertical (0% mostra o topo da foto, 100% mostra a base) */
+  --hero-photo-pos-desktop: 70% 18%;
+  --hero-photo-pos-mobile: 50% 12%;
 }
 
 /* --------------------------------------------------------------------------
@@ -256,9 +262,7 @@ body.nav-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* ajuste este valor pra reenquadrar a foto: X% = horizontal, Y% = vertical
-     (Y menor = mostra mais o topo da imagem, revelando o rosto) */
-  object-position: var(--hero-photo-pos, 70% 30%);
+  object-position: var(--hero-photo-pos-desktop);
   display: block;
   filter: grayscale(20%) sepia(15%) brightness(.75);
   background: rgba(90, 102, 80, .18); /* aparece enquanto a imagem carrega */
@@ -296,6 +300,9 @@ body.nav-open {
   line-height: 1.8;
   color: var(--ink);
   max-width: 480px;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
   opacity: 0;
   animation: fadeUp .8s .4s forwards;
 }
@@ -619,6 +626,9 @@ section {
   color: var(--ink);
   opacity: .8;
   line-height: 1.8;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 /* --------------------------------------------------------------------------
@@ -727,7 +737,7 @@ footer {
   }
 
   .hero-photo {
-    object-position: var(--hero-photo-pos-mobile, 50% 12%);
+    object-position: var(--hero-photo-pos-mobile);
   }
 
   .hero-photo-wrap::after {
