@@ -258,7 +258,7 @@ body.nav-open {
   object-fit: cover;
   /* ajuste este valor pra reenquadrar a foto: X% = horizontal, Y% = vertical
      (Y menor = mostra mais o topo da imagem, revelando o rosto) */
-  object-position: var(--hero-photo-pos, 70% 18%);
+  object-position: var(--hero-photo-pos, 70% 30%);
   display: block;
   filter: grayscale(20%) sepia(15%) brightness(.75);
   background: rgba(90, 102, 80, .18); /* aparece enquanto a imagem carrega */
