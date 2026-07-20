@@ -41,8 +41,8 @@
   /* Enquadramento da foto do hero (ajuste aqui, sem precisar mexer no resto do CSS)
      Formato: "X% Y%" — X = horizontal (0% esquerda, 100% direita)
                         Y = vertical (0% mostra o topo da foto, 100% mostra a base) */
-  --hero-photo-pos-desktop: 70% 18%;
-  --hero-photo-pos-mobile: 50% 12%;
+  --hero-photo-pos-desktop: 70% 25%;
+  --hero-photo-pos-mobile: 50% 20%;
 }
 
 /* --------------------------------------------------------------------------
