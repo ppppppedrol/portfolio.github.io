@@ -89,15 +89,15 @@ nav {
   top: 0;
   z-index: 10;
   background: var(--bg);
-  padding: 28px 0 0;
+  margin: 0 calc(50% - 50vw); /* fundo e borda vão até a borda da viewport */
+  padding: 28px calc(50vw - 50% + 28px) 16px;
+  border-bottom: 1px solid var(--soft);
 }
 
 .nav-inner {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--soft);
 }
 
 .nav-name {
@@ -128,6 +128,87 @@ nav {
   color: var(--ember);
 }
 
+/* Botão hambúrguer (visível apenas no mobile) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform .25s ease, opacity .2s ease;
+}
+
+body.nav-open .nav-toggle-bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+body.nav-open .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+body.nav-open .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* Overlay de menu em tela cheia (mobile) */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s;
+}
+
+body.nav-open .nav-overlay {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-overlay-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-overlay-links a {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.nav-overlay-links a:hover {
+  color: var(--ember);
+}
+
+body.nav-open {
+  overflow: hidden;
+}
+
 /* --------------------------------------------------------------------------
    6. HERO (topo com nome, bio e foto)
    -------------------------------------------------------------------------- */
@@ -135,7 +216,7 @@ nav {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 560px;
+  min-height: clamp(460px, 68vh, 620px);
   margin: 0 calc(50% - 50vw); /* estica a seção até as bordas da viewport */
   padding: 88px calc(50vw - 50% + 28px) 72px;
   display: flex;
@@ -175,7 +256,9 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 75% center;
+  /* ajuste este valor pra reenquadrar a foto: X% = horizontal, Y% = vertical
+     (Y menor = mostra mais o topo da imagem, revelando o rosto) */
+  object-position: var(--hero-photo-pos, 70% 18%);
   display: block;
   filter: grayscale(20%) sepia(15%) brightness(.75);
   background: rgba(90, 102, 80, .18); /* aparece enquanto a imagem carrega */
@@ -634,9 +717,9 @@ footer {
    -------------------------------------------------------------------------- */
 @media (max-width: 600px) {
   .hero {
-    min-height: 620px;
+    min-height: clamp(520px, 92vh, 680px);
     align-items: flex-end;
-    padding-top: 220px;
+    padding-top: clamp(160px, 34vh, 240px);
   }
 
   .hero-text {
@@ -644,7 +727,7 @@ footer {
   }
 
   .hero-photo {
-    object-position: center 30%;
+    object-position: var(--hero-photo-pos-mobile, 50% 12%);
   }
 
   .hero-photo-wrap::after {
@@ -657,6 +740,14 @@ footer {
       var(--bg) 62%,
       var(--bg) 100%
     );
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-overlay-links {
+    text-align: center;
   }
 
   .skills-grid {
