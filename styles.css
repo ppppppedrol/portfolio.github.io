@@ -132,32 +132,52 @@ nav {
    6. HERO (topo com nome, bio e foto)
    -------------------------------------------------------------------------- */
 .hero {
-  padding: 88px 0 72px;
-  display: grid;
-  grid-template-columns: 1fr 156px;
-  gap: 0 48px;
-  align-items: start;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 560px;
+  margin: 0 calc(50% - 50vw); /* estica a seção até as bordas da viewport */
+  padding: 88px calc(50vw - 50% + 28px) 72px;
+  display: flex;
+  align-items: center;
 }
 
 .hero-text {
-  grid-column: 1;
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
 }
 
 .hero-photo-wrap {
-  grid-column: 2;
-  grid-row: 1 / 6;
-  align-self: start;
-  margin-top: 6px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   opacity: 0;
-  animation: fadeUp .8s .5s forwards;
+  animation: fadeUp 1s forwards;
+}
+
+.hero-photo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* revela a foto à direita, funde com o fundo à esquerda (onde fica o texto) */
+  background: linear-gradient(
+    100deg,
+    var(--bg) 0%,
+    var(--bg) 28%,
+    rgba(44, 56, 40, .82) 42%,
+    rgba(44, 56, 40, .3) 62%,
+    rgba(44, 56, 40, 0) 78%
+  );
 }
 
 .hero-photo {
-  width: 156px;
-  height: 196px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: 75% center;
   display: block;
-  filter: grayscale(20%) sepia(15%) brightness(.9);
+  filter: grayscale(20%) sepia(15%) brightness(.75);
   background: rgba(90, 102, 80, .18); /* aparece enquanto a imagem carrega */
 }
 
@@ -614,19 +634,29 @@ footer {
    -------------------------------------------------------------------------- */
 @media (max-width: 600px) {
   .hero {
-    grid-template-columns: 1fr;
+    min-height: 620px;
+    align-items: flex-end;
+    padding-top: 220px;
   }
 
-  .hero-photo-wrap {
-    grid-column: 1;
-    grid-row: auto;
-    margin-bottom: 32px;
-    order: -1;
+  .hero-text {
+    max-width: none;
   }
 
   .hero-photo {
-    width: 110px;
-    height: 138px;
+    object-position: center 30%;
+  }
+
+  .hero-photo-wrap::after {
+    /* no mobile a foto aparece como uma faixa no topo, o texto fica sobre fundo sólido embaixo */
+    background: linear-gradient(
+      180deg,
+      rgba(44, 56, 40, 0) 0%,
+      rgba(44, 56, 40, .35) 32%,
+      rgba(44, 56, 40, .92) 48%,
+      var(--bg) 62%,
+      var(--bg) 100%
+    );
   }
 
   .skills-grid {
